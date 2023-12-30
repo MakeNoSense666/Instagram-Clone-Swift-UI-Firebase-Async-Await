@@ -71,15 +71,12 @@ struct ChatView: View {
                             .clipShape(Capsule())
                             .font(.subheadline)
                             .autocorrectionDisabled()
-                        
+
                         Button {
                             Task {
                                 try await viewModel.sendMessage()
-                                viewModel.messageText = ""
-                                viewModel.selectedImage = nil
-                                viewModel.postImage = nil
+                               
                             }
-                            viewModel.messageText = ""
                         } label: {
                             Text("Send")
                                 .fontWeight(.semibold)

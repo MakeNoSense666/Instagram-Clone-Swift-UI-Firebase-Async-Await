@@ -45,12 +45,22 @@ class ChatViewModel: ObservableObject {
     
     @MainActor
     func sendMessage() async throws {
-        self.isLoading = true
-        guard let uiImage = uiImage else { return }
-        guard let imageUrl = try await ImageUploader.uploadImage(image: uiImage) else { return }
+        do {
+            self.isLoading = true
+            
+            let uiImage = uiImage
+            let imageUrl = try await ImageUploader.uploadImage(image: uiImage ?? UIImage())
+            
+            service.sendMessage(messageText, imageUrl: imageUrl)
+            messageText = ""
+            self.selectedImage = nil
+            self.uiImage = nil
+            self.postImage = nil
+            self.isLoading = false
+        } catch {
+            print("Error")
+        }
 
-        service.sendMessage(messageText, imageUrl: imageUrl)
-        self.isLoading = false
     }
     
     func loadImage(fromItem item: PhotosPickerItem?) async {

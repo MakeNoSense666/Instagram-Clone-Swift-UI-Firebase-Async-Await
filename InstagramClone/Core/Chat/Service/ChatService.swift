@@ -13,7 +13,7 @@ struct ChatService {
     
     let chatPartner: User
     
-    func sendMessage(_ messageText: String, imageUrl: String) {
+    func sendMessage(_ messageText: String, imageUrl: String?) {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         let chatPartnerId = chatPartner.id
         
